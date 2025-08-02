@@ -58,8 +58,8 @@ pip install -r requirements.txt
 python app.py
 ```
 
-🐳  Docker-Based Setup (Recommended)
-# Build and run using Docker Compose
+### 🐳 Docker-Based Setup (Recommended)
+#### Build and run using Docker Compose
 ```
 1. docker compose build
 	ONLY Once, at project start or if changes in requirements.txt or Dockerfile
@@ -79,6 +79,7 @@ Answer is returned to the user via CLI or API.
 
 ---
 🧪 Example Queries
+
 Q: What is the name of the ship Morpheus commands?
 A: The Nebuchadnezzar.
 
@@ -87,6 +88,7 @@ A: Neo chooses to sacrifice himself to save others, realizing his purpose.
 
 ---
 🔮 Future Enhancements
+
 Gradio/Streamlit UI for web-based interface
 Hugging Face Space deployment
 Add support for multi-language transcripts
@@ -94,12 +96,15 @@ Summarization & scene-level search
 
 ---
 🤝 Contributing
+
 Pull requests are welcome. Please open issues to discuss improvements or bugs.
 
 ---
 📜 License
+
 MIT License – feel free to use, fork, and modify.
 
 📫 Contact
+
 Made by Sandesh Mendan
 Project inspired by movie nerds + LLMs ✨
