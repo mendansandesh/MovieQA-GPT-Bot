@@ -6,12 +6,6 @@ MovieQA-GPT-Bot is a production-ready, Dockerized AI system that lets users ask 
 
 ---
 
-## 🚀 Demo
-
-> (Optional: Add a screenshot or a short video/GIF of the UI or terminal interaction here)
-
----
-
 ## 🔍 Key Features
 
 - 🎞️ Ingests and indexes full movie transcripts
@@ -21,7 +15,18 @@ MovieQA-GPT-Bot is a production-ready, Dockerized AI system that lets users ask 
 - 🧪 Modular design — easy to plug in new LLMs or datasets
 
 ---
+## 🧰 Tech Stack
 
+| Component              | Technology / Library                   |
+|------------------------|----------------------------------------|
+| Language & Runtime     | Python 3.10+                           |
+| UI                     | Streamlit *(or React + Tailwind)*     |
+| Orchestrator / Agent   | LangChain *(Agents & Chains)*         |
+| Transcript Loader      | `youtube_transcript_api`              |
+| Chunking & Embedding   | HuggingFace `all-MiniLM-L6-v2`        |
+| Vector DB              | Chroma DB                             |
+
+---
 ## 📁 Project Structure
 
 ```
@@ -45,7 +50,6 @@ movieqa_bot/
 ### 🧠 Prerequisites
 - Python 3.8+
 - Docker & Docker Compose
-- OpenAI API Key (or replace with LLaMA2/local models if needed)
 
 ### 🔧 Local Setup (Without Docker)
 
