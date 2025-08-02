@@ -1,0 +1,17 @@
+services:
+  app:
+    build: .
+    image: movieqa-bot
+    restart: on-failure
+    volumes:
+      - .:/app                        # Bind-mount your code
+      - chroma_data:/app/chroma_db    # Persist vector store
+    environment:
+      VIDEO_ID: ${VIDEO_ID:-iXZ1jeTCU-o}
+      CHROMA_TELEMETRY: "False"
+    # Pass the VIDEO_ID ENV var directly into the args array:
+    command: ["python", "app.py", "${VIDEO_ID}"]
+
+volumes:
+  chroma_data:
+    driver: local

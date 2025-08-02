@@ -1,0 +1,25 @@
+# Python artifacts
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual environments
+venv/
+.env/
+
+# Git metadata
+.git/
+.gitignore
+
+# IDE/editor settings
+.vscode/
+.idea/
+
+# Chroma data (if you don’t want to include initial state)
+chroma_db/
+
+# Logs and temp files
+*.log
+tmp/
+*.tmp

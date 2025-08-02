@@ -1,0 +1,43 @@
+# Byte-compiled / cache files
+__pycache__/
+*.py[cod]
+*.so
+
+# Virtual environment
+.venv/
+env/
+venv/
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# VSCode settings
+.vscode/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs and temp files
+*.log
+*.tmp
+
+# Docker files (optional if not needed in Git)
+docker/
+*.pid
+
+# Secrets and environment files
+.env
+.env.*
+
+# Chroma/Vector DB cache
+chroma_db/
+vectorstore/
+
+# Models (if large)
+*.pt
+*.pth
+*.onnx
+
+# Others
+*.sqlite3
