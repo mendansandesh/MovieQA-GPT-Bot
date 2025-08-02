@@ -36,7 +36,6 @@ movieqa_bot/
 ├── docker/ # Docker-specific configs/scripts
 └── README.md # This file
 
-
 ---
 
 ## ⚙️ Setup & Installation
@@ -55,27 +54,30 @@ python -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
 
-# Add transcripts to /transcript folder
 # Run app
 python app.py
+```
 
 🐳  Docker-Based Setup (Recommended)
 # Build and run using Docker Compose
-docker-compose up --build
-
-
+```
+1. docker compose build
+	ONLY Once, at project start or if changes in requirements.txt or Dockerfile
+2.docker compose run --rm app python app.py <YOUTUBE_VIDEO_ID>
+	Every code/test cycle. Instant, no rebuild.
+3. (Optional) export VIDEO_ID=<YOUTUBE_VIDEO_ID> and then docker compose up
+	If you want your service running continuously (e.g. with a web UI).
+4. docker compose down
+```
+---
 🧠 How It Works
 1. Parses and indexes movie transcripts into a Chroma vector store.
-
 2. User asks a question — e.g., "What does Neo realize at the end of The Matrix?"
-
 3. Relevant transcript chunks are retrieved via vector similarity.
-
 4. These chunks + the user query are passed to the LLM (GPT) to generate the answer.
-
 Answer is returned to the user via CLI or API.
 
-
+---
 🧪 Example Queries
 Q: What is the name of the ship Morpheus commands?
 A: The Nebuchadnezzar.
@@ -83,17 +85,18 @@ A: The Nebuchadnezzar.
 Q: What choice does Neo make at the end?
 A: Neo chooses to sacrifice himself to save others, realizing his purpose.
 
-
+---
 🔮 Future Enhancements
 Gradio/Streamlit UI for web-based interface
 Hugging Face Space deployment
 Add support for multi-language transcripts
 Summarization & scene-level search
 
+---
 🤝 Contributing
 Pull requests are welcome. Please open issues to discuss improvements or bugs.
 
-
+---
 📜 License
 MIT License – feel free to use, fork, and modify.
 
