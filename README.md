@@ -24,6 +24,7 @@ MovieQA-GPT-Bot is a production-ready, Dockerized AI system that lets users ask 
 
 ## 📁 Project Structure
 
+```
 movieqa_bot/
 ├── app.py # Entry point for the bot
 ├── Dockerfile # Docker setup
@@ -35,6 +36,7 @@ movieqa_bot/
 ├── rag/ # RAG pipeline implementation
 ├── docker/ # Docker-specific configs/scripts
 └── README.md # This file
+```
 
 ---
 
