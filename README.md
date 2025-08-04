@@ -13,6 +13,10 @@ MovieQA-GPT-Bot is a production-ready, Dockerized AI system that lets users ask 
 - 🔎 Semantic search using `ChromaDB` + `FAISS`
 - 🐳 Fully Dockerized with `Dockerfile` and `docker-compose.yaml`
 - 🧪 Modular design — easy to plug in new LLMs or datasets
+---
+## Architecture
+<img width="2531" height="697" alt="youtubeQ A_bot" src="https://github.com/user-attachments/assets/d6933c4e-d145-4c3d-b0c1-a3519d811baa" />
+
 
 ---
 ## 🧰 Tech Stack
