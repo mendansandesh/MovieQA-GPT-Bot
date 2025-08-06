@@ -1,16 +1,22 @@
+version: '3.8'
+
 services:
   app:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile
     image: movieqa-bot
+    container_name: movieqa-bot
     restart: on-failure
+    env_file:
+      - .env
     volumes:
-      - .:/app                        # Bind-mount your code
-      - chroma_data:/app/chroma_db    # Persist vector store
-    environment:
-      VIDEO_ID: ${VIDEO_ID:-iXZ1jeTCU-o}
-      CHROMA_TELEMETRY: "False"
-    # Pass the VIDEO_ID ENV var directly into the args array:
-    command: ["python", "app.py", "${VIDEO_ID}"]
+      - .:/app                           # Mount entire codebase
+      - ./transcript:/app/transcript     # Optional: retain transcripts
+      - ./vectorstore:/app/vectorstore   # Optional: retain vectors
+      - chroma_data:/app/chroma_db       # Persistent Chroma DB
+    command: >
+      sh -c "python app.py $VIDEO_ID \"$QUESTION\""
 
 volumes:
   chroma_data:

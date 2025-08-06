@@ -41,3 +41,4 @@ vectorstore/
 
 # Others
 *.sqlite3
+.history/
