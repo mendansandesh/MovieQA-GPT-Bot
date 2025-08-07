@@ -2,6 +2,8 @@ import sys
 import re
 from youtube_transcript_api import YouTubeTranscriptApi, TranscriptsDisabled, NoTranscriptFound, VideoUnavailable
 from sentence_transformers import SentenceTransformer
+from langchain.text_splitter import RecursiveCharacterTextSplitter
+
 
 # Constants for chunking
 MAX_CHUNK_TOKENS = 500  # approx token count per chunk
@@ -9,6 +11,21 @@ OVERLAP_TOKENS = 50     # approximate tokens of overlap
 
 # Load local embedding model
 embedding_model = SentenceTransformer('all-MiniLM-L6-v2')
+
+def get_text_splitter(transcript: str):
+    """
+    Returns a text splitter tuned based on transcript length.
+    Uses RecursiveCharacterTextSplitter with dynamic chunk size.
+    """
+    chunk_size = 512 if len(transcript) < 5000 else 1000
+    chunk_overlap = 50 if chunk_size == 512 else 200
+
+    return RecursiveCharacterTextSplitter(
+        chunk_size=chunk_size,
+        chunk_overlap=chunk_overlap,
+        separators=["\n\n", "\n", ".", " ", ""]
+    )
+
 
 def fetch_transcript(video_id: str, languages: list = ['en']) -> str:
     """
@@ -44,23 +61,19 @@ def clean_transcript(raw_text: str) -> str:
     text = re.sub(r"\s+", " ", text)
     return text.strip()
 
-def chunk_text(cleaned_text: str, max_chunk_tokens: int = MAX_CHUNK_TOKENS,
-               overlap_tokens: int = OVERLAP_TOKENS) -> list:
+def chunk_text(cleaned_text: str) -> list:
     """
-    Splits text into overlapping chunks based on approximate token limits.
+    Splits text into overlapping chunks using LangChain's RecursiveCharacterTextSplitter.
     Returns list of dicts: {'chunk_id': int, 'text': str}
     """
-    words = cleaned_text.split()
-    chunks = []
-    start = 0
-    chunk_id = 0
-    while start < len(words):
-        end = start + max_chunk_tokens
-        chunk_words = words[start:end]
-        chunks.append({'chunk_id': chunk_id, 'text': ' '.join(chunk_words)})
-        chunk_id += 1
-        start = end - overlap_tokens
-    return chunks
+    splitter = get_text_splitter(cleaned_text)
+    split_chunks = splitter.split_text(cleaned_text)
+
+    return [
+        {'chunk_id': i, 'text': chunk}
+        for i, chunk in enumerate(split_chunks)
+    ]
+
 
 def embed_chunks(chunks: list) -> list:
     """
