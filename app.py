@@ -41,15 +41,12 @@ def answer_question(video_id: str, question: str):
     print("\nTop Relevant Chunks:\n")
     relevant_chunks = []
     for i, doc in enumerate(docs, 1):
-        text = doc.page_content.strip()
-        relevant_chunks.append(text)
-        print(f"[Chunk {i}]\n{doc.page_content[:500]}\n{'-' * 60}")
+        print(f"[Chunk {i}]\n{doc.page_content[:400]}\n{'-' * 60}")
+        relevant_chunks.append(doc.page_content)
 
     print("\n🤖 Generating Answer (using local model)...")
-    answer = generate_answer(question, relevant_chunks, top_k=top_k)
-
-    print("\n💡 Final Answer:")
-    print(answer)    
+    answer = generate_answer(question, relevant_chunks)
+ 
 
 def main():
     if len(sys.argv) != 3:
