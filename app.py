@@ -6,6 +6,7 @@ import sys
 from transcript.loader import fetch_transcript, clean_transcript
 from rag.chunker import chunk_text
 from rag.embedder import embed_chunks
+from rag.qa_engine import generate_answer
 from vectorstore.indexer import (
     get_or_create_collection,
     upsert_chunks,
@@ -31,14 +32,24 @@ def load_and_index_transcript(video_id: str):
     return chunks
 
 def answer_question(video_id: str, question: str):
-    retriever = get_retriever(video_id=video_id, k=3)
+    top_k = 3
+    retriever = get_retriever(video_id=video_id, k=top_k)
     docs = retriever.get_relevant_documents(question)
     
     print(f"\nVideoID: {video_id}")
     print(f"\nQuestion: {question}")
     print("\nTop Relevant Chunks:\n")
+    relevant_chunks = []
     for i, doc in enumerate(docs, 1):
+        text = doc.page_content.strip()
+        relevant_chunks.append(text)
         print(f"[Chunk {i}]\n{doc.page_content[:500]}\n{'-' * 60}")
+
+    print("\n🤖 Generating Answer (using local model)...")
+    answer = generate_answer(question, relevant_chunks, top_k=top_k)
+
+    print("\n💡 Final Answer:")
+    print(answer)    
 
 def main():
     if len(sys.argv) != 3:

@@ -1,5 +1,7 @@
 import sys
 import re
+import os
+import json
 from youtube_transcript_api import YouTubeTranscriptApi, TranscriptsDisabled, NoTranscriptFound, VideoUnavailable
 from sentence_transformers import SentenceTransformer
 from langchain.text_splitter import RecursiveCharacterTextSplitter
@@ -30,8 +32,23 @@ def get_text_splitter(transcript: str):
 def fetch_transcript(video_id: str, languages: list = ['en']) -> str:
     """
     Fetches the transcript for a given YouTube video ID.
-    Returns raw concatenated transcript.
+    Uses local cache (./transcript/{video_id}.json) to avoid repeated API calls.
+    Returns raw concatenated transcript text.
     """
+    cache_dir = "./transcript"
+    os.makedirs(cache_dir, exist_ok=True)
+    cache_path = os.path.join(cache_dir, f"{video_id}.json")
+
+    # Try loading from cache
+    if os.path.exists(cache_path):
+        try:
+            with open(cache_path, "r") as f:
+                cached_data = json.load(f)
+            print(f"📄 Loaded cached transcript for video ID: {video_id}")
+            return " ".join([s["text"] for s in cached_data])
+        except Exception as e:
+            print(f"⚠️ Failed to read cache for {video_id}, refetching: {e}")
+
     try:
         api = YouTubeTranscriptApi()
         transcript_list = api.list(video_id)
