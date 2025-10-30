@@ -3,7 +3,7 @@ import warnings
 warnings.filterwarnings("ignore", category=FutureWarning)
 
 import sys
-from transcript.loader import fetch_transcript, clean_transcript
+from transcript.loader import fetch_transcript_text as fetch_transcript, clean_transcript
 from rag.chunker import chunk_text
 from rag.embedder import embed_chunks
 from rag.qa_engine import generate_answer
@@ -31,7 +31,7 @@ def load_and_index_transcript(video_id: str):
     print(f"Indexed {len(chunks)} chunks for video ID {video_id}")
     return chunks
 
-def answer_question(video_id: str, question: str):
+def answer_question(video_id: str, question: str) -> str:
     top_k = 3
     retriever = get_retriever(video_id=video_id, k=top_k)
     docs = retriever.get_relevant_documents(question)
@@ -46,6 +46,7 @@ def answer_question(video_id: str, question: str):
 
     print("\n🤖 Generating Answer (using local model)...")
     answer = generate_answer(question, relevant_chunks)
+    return answer
  
 
 def main():

@@ -23,9 +23,11 @@ def generate_answer(question: str, retrieved_chunks: list[str]) -> str:
     if not retrieved_chunks:
         return "No relevant context found."
 
-    # Combine top chunks
+    # Combine top chunks and truncate if too long
     context = "\n".join(retrieved_chunks[:3])
-    
+    if len(context) > 1500:
+        context = context[:1500] + "..."  # truncate long context
+
     prompt = (
         f"Answer the question based on the given movie transcript.\n\n"
         f"Context:\n{context}\n\n"
@@ -33,9 +35,17 @@ def generate_answer(question: str, retrieved_chunks: list[str]) -> str:
         f"Answer clearly and concisely:"
     )
 
-    print("\n🤖 Generating Answer (using local model)...\n")
-    output = qa_pipeline(prompt, max_new_tokens=128, do_sample=False)
-    answer = output[0]["generated_text"].strip()
+    print("\nGenerating Answer (using local model)...\n")
 
-    print(f"💡 Final Answer:\n{answer}")
-    return answer
+    try:
+        output = qa_pipeline(prompt, max_new_tokens=128, do_sample=False)
+        if not output or "generated_text" not in output[0]:
+            raise ValueError("Model did not return a valid output.")
+        answer = output[0]["generated_text"].strip()
+        print(f"Final Answer:\n{answer}")
+        return answer
+
+    except Exception as e:
+        print(f"Generation failed: {e}")
+        return "Sorry, I couldn't generate an answer due to model input limits."
+

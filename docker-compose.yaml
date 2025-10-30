@@ -11,12 +11,29 @@ services:
     env_file:
       - .env
     volumes:
-      - .:/app                           # Mount entire codebase
-      - ./transcript:/app/transcript     # Optional: retain transcripts
-      - ./vectorstore:/app/vectorstore   # Optional: retain vectors
-      - chroma_data:/app/chroma_db       # Persistent Chroma DB
+      - .:/app
+      - ./transcript:/app/transcript
+      - ./vectorstore:/app/vectorstore
+      - chroma_data:/app/chroma_db
+    # Default: run CLI mode (app.py)
     command: >
-      sh -c "python app.py $VIDEO_ID \"$QUESTION\""
+      sh -c "python app.py ${VIDEO_ID:-''} \"${QUESTION:-''}\""
+
+  streamlit:
+    image: movieqa-bot
+    container_name: movieqa-ui
+    restart: on-failure
+    env_file:
+      - .env
+    ports:
+      - "8501:8501"
+    volumes:
+      - .:/app
+      - ./transcript:/app/transcript
+      - ./vectorstore:/app/vectorstore
+      - chroma_data:/app/chroma_db
+    command: >
+      sh -c "streamlit run /app/ui_streamlit.py --server.port=8501 --server.address=0.0.0.0"
 
 volumes:
   chroma_data:
