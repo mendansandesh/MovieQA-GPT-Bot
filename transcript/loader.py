@@ -58,6 +58,7 @@ def fetch_transcript_snippets(video_id: str, languages: List[str] = ["en"]) -> L
 
     # Try cache first
     if os.path.exists(cache_path):
+        print("Video transcript found in cache...")
         try:
             with open(cache_path, "r", encoding="utf-8") as f:
                 data = json.load(f)
@@ -70,9 +71,8 @@ def fetch_transcript_snippets(video_id: str, languages: List[str] = ["en"]) -> L
 
     # Fetch using the API methods you have
     try:
+        print("Video transcript fetchign from api...")
         api = YouTubeTranscriptApi()
-        # transcript_list = api.list(video_id)  # older style you had used
-        # prefer to use api.list() since that's available on your install
         transcript_list = api.list(video_id)
 
         # try languages in order
