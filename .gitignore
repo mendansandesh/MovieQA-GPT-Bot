@@ -21,6 +21,7 @@ Thumbs.db
 # Logs and temp files
 *.log
 *.tmp
+*.json
 
 # Docker files (optional if not needed in Git)
 docker/
