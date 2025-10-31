@@ -78,4 +78,4 @@ else:
 
 # --- Footer ---
 st.markdown("---")
-st.markdown("*Built with Streamlit + LangChain + OpenAI*")
+st.markdown("*Built with LangChain + HuggingFace + Google Flan-T5 + ChromaDB + Streamlit*")
