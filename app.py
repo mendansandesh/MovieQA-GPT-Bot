@@ -44,7 +44,6 @@ def answer_question(video_id: str, question: str) -> str:
         print(f"[Chunk {i}]\n{doc.page_content[:400]}\n{'-' * 60}")
         relevant_chunks.append(doc.page_content)
 
-    print("\n🤖 Generating Answer (using local model)...")
     answer = generate_answer(question, relevant_chunks)
     return answer
  
